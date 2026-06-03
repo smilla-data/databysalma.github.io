@@ -1,0 +1,180 @@
+<!DOCTYPE HTML>
+<!--
+	databysalma
+-->
+<html>
+	<head>
+		<title>Customer Feedback System</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<div class="inner">
+
+							<!-- Logo -->
+								<a href="index.html" class="logo">
+									<span class="symbol"><img src="images/logo.svg" alt="" /></span><span class="title">databysalma</span>
+								</a>
+
+							<!-- Nav -->
+								<nav>
+									<ul>
+										<li><a href="#menu">Menu</a></li>
+									</ul>
+								</nav>
+
+						</div>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<h2>Menu</h2>
+						<ul>
+							<li><a href="index.html">Home</a></li>
+							<li><a href="cfia.html">CFIA Food Recalls Data Pipeline</a></li>
+							<li><a href="b2b_sales.html">B2B Sales</a></li>
+							<li><a href="customer_feedback.html">Customer Feedback System</a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+                            <section>
+                                <span class="image main project">
+                                    <img src="images/customer_feedback_background.png" style="width: 100%; height: 100%;"/>
+                                    <h1>Customer Feedback System</h1>
+                                </span>
+                                <p>
+                                    This project analyzes customer reviews collected from Google Maps to identify patterns in customer satisfaction and 
+                                    uncover opportunities for service improvement within a restaurant environment. The project was inspired by my experience
+                                    working in a restaurant and my interest in understanding how customer feedback can be transformed into actionable business insights.
+                                    The primary objective is to design and build an end-to-end analytics solution that collects, stores, and analyzes customer 
+                                    reviews to answer business questions related to customer experience, service quality, and operational performance.
+                                    A Python-based ETL pipeline was developed to extract review data, clean and transform semi-structured information, and prepare it for 
+                                    storage in a relational database. The resulting dataset serves as the foundation for future SQL analysis and dashboard development.
+                                </p>
+                            </section>
+
+                            <section>
+                                <h2>Business Questions</h2>
+                                <p>This project seeks to answer the following business questions:</p>
+                                <ul>
+                                    <li>What are the most common themes in customer reviews</li>
+                                    <li>What factors are most frequently mentioned in negative reviews?</li> <li>What are the most common themes in customer reviews</li>
+                                    <li>What factors are most frequently mentioned in positive reviews?</li> 
+                                    <li>Are there any noticeable changes in customer sentiment over time?</li>
+                                    <li>Which aspects of the customer experience appear to have the greatest impact on customer satisfaction?</li> 
+                                    <li>What actions could the restaurant team take to improve the customer experience and encourage repeat visits?</li>
+                                </ul>
+                            </section>
+
+                            <section>
+                                <h2>Data Source</h2>
+                                <p>
+                                    The source data consists of publicly available customer reviews collected from Google Maps using the Apify Google Maps Reviews Scraper.
+                                    The extracted reviews include information such as:
+                                    <ul>
+                                        <li>Customer display name</li>
+                                        <li>Review text</li>
+                                        <li>Overall review rating</li>
+                                        <li>Review date</li>
+                                        <li>Service context information (e.g., dine-in, takeout, meal type, price range)</li>
+                                        <li>Category ratings (Food, Service, Atmosphere)</li>
+                                        <li>Customer display name</li>
+                                        <li>Review text</li>
+                                    </ul>
+                                    Unlike traditional structured datasets, some review attributes are embedded within dictionary-like text fields. These fields require additional transformation before they can be analyzed effectively.
+                                </p>
+                            </section>
+
+                            <section>
+                                <h2>Tools & Technologies</h2>
+                                <ul>
+                                    <li><strong>Python:</strong> Developed an ETL pipeline to extract, clean, transform, and prepare customer review data for analysis.</li>
+                                    <li><strong>Pandas:</strong> Cleaned raw review data, parsed semi-structured fields, handled missing values, standardized formats, and prepared the analysis-ready dataset.</li>
+                                    <!--<li><strong>PostgreSQL:</strong> Used as the relational database to store structured customer and review data.</li>
+                                    <li><strong>SQLAlchemy:</strong> Used to manage the database interaction between Python and PostgreSQL during the loading stage.</li>-->
+                                    <li><strong>Apify:</strong> Extracted Google Maps review data using a review scraping actor.</li>
+                                    <li><strong>GitHub:</strong> Used for version control and project documentation.</li>
+                                    <li><strong>Excel:</strong> Conducted initial exploratory data analysis to inspect raw review fields, missing values, and data structure.</li>
+                                    <li><strong>Poetry:</strong> Managed project dependencies and maintained environment consistency.</li>
+                                </ul>
+                            </section>
+
+                            <section>
+                                <h2>ETL Pipeline</h2>
+                                <h3>1. Extract</h3>
+                                <p>The extraction process uses the Apify Google Maps Reviews Scraper to collect customer reviews from Google Maps.
+                                    The pipeline retrieves review information including customer details, review text, overall ratings, review dates, 
+                                    and contextual information describing the customer's visit experience.
+                                    The extracted data is stored as a raw CSV file to preserve the original source data and provide traceability throughout the data pipeline.
+                                </p>
+                                <h3>2. Transform</h3>
+                                <p>
+                                    The <code>transform_data.py</code> script converts the cleaned review dataset into an analysis-ready structure by parsing semi-structured fields, extracting relevant attributes, standardizing formats, and aligning columns with the target database schema.
+                                </p>
+                                <p>
+                                    One of the main challenges in this project was that some review attributes were stored as dictionary-like text fields. For example, visit information such as order type, meal time, and price range was embedded in the <code>reviewContext</code> column, while category-level ratings such as Food, Service, and Atmosphere were stored in the <code>reviewDetailedRating</code> column.
+                                </p>
+                                <p>
+                                    To transform these fields, I converted the dictionary-like strings into Python dictionaries using safe parsing logic. This allowed specific attributes to be extracted into separate columns such as <code>order_type</code>, <code>meal_time</code>, <code>price_range_min</code>, <code>price_range_max</code>, <code>food_rating</code>, <code>service_rating</code>, and <code>atmosphere_rating</code>.
+                                </p>
+                                <p>
+                                    The transformation process also standardized review dates by converting timestamp values into date fields, corrected encoding issues in price ranges, removed currency symbols, and split price ranges into minimum and maximum values. Open-ended price ranges such as <code>100+</code> were handled by preserving the minimum value while setting the maximum value as null to avoid making unsupported assumptions.
+                                </p>
+                                <p>
+                                    Finally, key columns were converted to appropriate data types. Review and customer identifiers were stored as strings to preserve their full values, while rating and price range fields were converted to nullable integer types to support missing values. Columns were then renamed to match the target schema, and intermediate raw parsing fields were removed from the final transformed dataset.
+                                </p>
+                            </section>
+
+                            <section>
+                                <h2>Current Status & Next Steps</h2>
+                                <p>
+                                    This project is currently under active development. The data extraction, cleaning, and transformation pipeline has been completed, resulting in a structured dataset prepared for analysis and database storage.
+                                    The next phase of the project focuses on designing and implementing a PostgreSQL database to store customer and review information using a relational schema. This stage will include creating tables, defining primary and foreign key relationships, and loading the transformed data into the database.
+                                    Once the database layer is complete, the project will continue with SQL-based exploratory analysis to answer the business questions defined during the planning phase.
+                                    The final stage will involve developing an interactive Tableau dashboard to visualize customer satisfaction trends, review patterns, and key drivers of positive and negative customer experiences. The dashboard will provide stakeholders with an intuitive way to explore customer feedback and identify opportunities for improvement.
+                                </p>
+                            </section>
+                        </div>
+					</div>
+                            
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+							<section>
+								<p><strong>Phone:</strong> <a href="tel:2262016728">(226) 201-6728</a></p>
+								<p><strong>Email:</strong> <a href="mailto:salma_milla@outlook.com">salma_milla@outlook.com</a></p>
+							</section>
+							<section>
+								<h2>Follow</h2>
+								<ul class="icons">
+									<li><a href="https://www.linkedin.com/in/salmamillags" class="icon brands style2 fa-linkedin"><span class="label">LinkedIn</span></a></li>
+									<li><a href="https://github.com/smillagallegos/PortfolioDataProjects" class="icon brands style2 fa-github"><span class="label">GitHub</span></a></li>
+								</ul>
+							</section>
+							<ul class="copyright">
+								<li>&copy; databysalma. All rights reserved</li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
